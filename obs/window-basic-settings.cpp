@@ -342,7 +342,6 @@ OBSBasicSettings::OBSBasicSettings(QWidget *parent)
 	HookWidget(ui->fpsInteger,           SCROLL_CHANGED, VIDEO_CHANGED);
 	HookWidget(ui->fpsNumerator,         SCROLL_CHANGED, VIDEO_CHANGED);
 	HookWidget(ui->fpsDenominator,       SCROLL_CHANGED, VIDEO_CHANGED);
-	HookWidget(ui->audioBufferingTime,   SCROLL_CHANGED, ADV_RESTART);
 	HookWidget(ui->colorFormat,          COMBO_CHANGED,  ADV_CHANGED);
 	HookWidget(ui->colorSpace,           COMBO_CHANGED,  ADV_CHANGED);
 	HookWidget(ui->colorRange,           COMBO_CHANGED,  ADV_CHANGED);
@@ -1608,8 +1607,6 @@ void OBSBasicSettings::LoadAudioSettings()
 
 void OBSBasicSettings::LoadAdvancedSettings()
 {
-	uint32_t audioBufferingTime = config_get_uint(main->Config(),
-			"Audio", "BufferingTime");
 	const char *videoColorFormat = config_get_string(main->Config(),
 			"Video", "ColorFormat");
 	const char *videoColorSpace = config_get_string(main->Config(),
@@ -1639,7 +1636,6 @@ void OBSBasicSettings::LoadAdvancedSettings()
 	ui->streamDelayPreserve->setChecked(preserveDelay);
 	ui->streamDelayEnable->setChecked(enableDelay);
 
-	ui->audioBufferingTime->setValue(audioBufferingTime);
 	SetComboByName(ui->colorFormat, videoColorFormat);
 	SetComboByName(ui->colorSpace, videoColorSpace);
 	SetComboByValue(ui->colorRange, videoColorRange);
@@ -2045,7 +2041,6 @@ void OBSBasicSettings::SaveVideoSettings()
 
 void OBSBasicSettings::SaveAdvancedSettings()
 {
-	SaveSpinBox(ui->audioBufferingTime, "Audio", "BufferingTime");
 	SaveCombo(ui->colorFormat, "Video", "ColorFormat");
 	SaveCombo(ui->colorSpace, "Video", "ColorSpace");
 	SaveComboData(ui->colorRange, "Video", "ColorRange");
